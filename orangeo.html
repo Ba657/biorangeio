@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>orangeo</title>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+            color: white;
+            perspective: 1000px; /* Needed for 3D transforms */
+
+            /* HSL Heat Map Gradient */
+            background: linear-gradient(to right,
+                hsl(0, 100%, 50%),    /* Red (start of heat) */
+                hsl(30, 100%, 50%),   /* Orange-Red */
+                hsl(60, 100%, 50%),   /* Yellow */
+                hsl(90, 100%, 40%),   /* Yellow-Green (cooling) */
+                hsl(120, 100%, 30%)    /* Green (coolest) */
+            );
+        }
+
+        .content {
+            padding: 60px; /* Large padding for the grey box */
+            background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent overlay */
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.1s ease-out; /* Smooth transition for tilt */
+            will-change: transform; /* Optimize for animation */
+            position: relative;
+            z-index: 2;
+            display: flex; /* Use flexbox to align items inside */
+            flex-direction: column; /* Stack items vertically */
+            justify-content: space-between; /* Distribute space */
+            align-items: center; /* Center horizontally */
+        }
+
+        .content h1 {
+            font-size: 2.5em; /* Make the main heading larger */
+            margin-bottom: 10px;
+        }
+
+        .content ul {
+            list-style-type: none; /* Remove default bullets */
+            padding: 0;
+            margin: 10px 0; /* Adjust margin for spacing */
+            text-align: center; /* Center list items */
+        }
+
+        .content li {
+            font-size: 1.2em;
+            line-height: 1.5;
+            margin-bottom: 5px; /* Space between list items */
+        }
+
+        .content .corner-text {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 1em;
+            color: #eee; /* Light grey for visibility */
+            z-index: 3; /* Ensure it's on top */
+        }
+
+        .fractal-image {
+            width: 100px; /* Adjust size as needed */
+            height: auto;
+            margin-top: 20px; /* Space above the image */
+            border-radius: 5px; /* Slightly rounded corners for the image */
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>biorange on youtube</h1>
+        <ul>
+            <li>subscribe to the channel</li>
+            <li>test my malwares</li>
+            <li>leave a comment</li>
+        </ul>
+        <img src="https://images.fineartamerica.com/images-medium-large-5/julia-set-solar-particle-gregory-samsscience-photo-library.jpg" alt="Fractal Image" class="fractal-image">
+
+        <div class="corner-text">oranges are yummy</div>
+    </div>
+
+    <script>
+        const contentBox = document.querySelector('.content');
+        const sensitivity = 15; // Adjust this value for more or less tilt
+
+        document.addEventListener('mousemove', (e) => {
+            const rect = contentBox.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const rotateX = (e.clientY - centerY) / rect.height * -sensitivity;
+            const rotateY = (e.clientX - centerX) / rect.width * sensitivity;
+
+            contentBox.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        contentBox.addEventListener('mouseleave', () => {
+            contentBox.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        });
+    </script>
+</body>
+</html>
